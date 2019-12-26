@@ -35,6 +35,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - './services/client:/usr/src/app'
+      - './services/client/package.json:/usr/src/app/package.json'
+      - './services/client/pnpm-lock.yaml:/usr/src/app/pnpm-lock.yaml'
       - '/usr/src/app/node_modules'
     ports:
       - 3007:3000
