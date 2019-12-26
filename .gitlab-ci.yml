@@ -20,7 +20,7 @@ build:
     - docker pull $IMAGE:users-compile-stage || true
     - docker pull $IMAGE:users-latest || true
     - docker build
-        --target users-compile-image
+        --target compile-image
         --cache-from $IMAGE:users-compile-stage
         --tag $IMAGE:users-compile-stage
         --file ./services/users/Dockerfile-prod
@@ -64,7 +64,6 @@ build-client:
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $IMAGE:client || true
     - docker build
-        --target client
         --cache-from $IMAGE:client
         --tag $IMAGE:client
         --file ./services/users/Dockerfile-ci
