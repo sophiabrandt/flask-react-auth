@@ -76,4 +76,5 @@ test-client:
   script:
     - cd /usr/src/app
     - pnpm run formatfix:check
+    - pnpm run lint
     - pnpm run test

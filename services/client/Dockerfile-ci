@@ -17,5 +17,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 ENV PATH=$PATH:/home/node/.npm-global/bin
 RUN pnpm install
 
+# COPY APP
+COPY . /usr/src/app
+
 # start app
 CMD ["./node_modules/.bin/react-scripts", "start"]
