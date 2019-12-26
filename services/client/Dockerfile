@@ -16,4 +16,4 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 RUN npm ci
 
 # start app
-CMD ["npm", "start"]
+CMD ["./node_modules/.bin/react-scripts", "start"]
