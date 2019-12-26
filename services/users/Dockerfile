@@ -16,7 +16,7 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # build-image
-FROM python:3.7.5-slim-buster AS runtime-image
+FROM python:3.7.6-slim-buster AS runtime-image
 
 # install nc
 RUN apt-get update && \
