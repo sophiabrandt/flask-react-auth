@@ -1,7 +1,9 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "node": true,
+    "es6": true,
+    "jest": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -12,10 +14,29 @@
       "modules": true
     }
   },
-  "plugins": ["prettier", "react"],
-  "extends": ["prettier", "eslint:recommended", "plugin:react/recommended"],
+  "plugins": ["prettier", "react", "jest"],
+  "extends": [
+    "prettier",
+    "standard-jsx",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react/jsx-no-bind": [
+      "error",
+      {
+        "allowArrowFunctions": true,
+        "allowBind": false,
+        "ignoreRefs": true
+      }
+    ],
+    "react/no-did-update-set-state": "error",
+    "react/no-unknown-property": "error",
+    "react/no-unused-prop-types": "error",
+    "react/react-in-jsx-scope": "error",
+    "jsx-quotes": "off",
+    "react/jsx-indent": "off"
   },
   "settings": {
     "react": {
