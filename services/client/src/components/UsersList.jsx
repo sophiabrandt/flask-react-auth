@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const UsersList = props => {
   return (
@@ -12,6 +13,10 @@ const UsersList = props => {
       })}
     </div>
   )
+}
+
+UsersList.propTypes = {
+  users: PropTypes.array.isRequired,
 }
 
 export default UsersList
