@@ -15,9 +15,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "formatfix:check": "prettier-eslint --list-different $PWD'/src/**/*.{js,jsx}'",
-    "formatfix:write": "prettier-eslint --write $PWD'/src/**/*.{js,jsx}'",
-    "lint": "eslint 'src/**/*.{js,jsx}'"
+    "formatfix:check": "prettier-eslint --list-different $PWD'/src/**/*.{js,jsx,json}'",
+    "formatfix:write": "prettier-eslint --write $PWD'/src/**/*.{js,jsx,json}'",
+    "lint": "eslint $PWD'/src/**/*.{js,jsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
