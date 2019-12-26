@@ -3,3 +3,4 @@ env
 .venv
 htmlcov/
 .coverage
+node_modules
