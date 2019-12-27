@@ -1,3 +1,4 @@
+from project.api.users.models import User
 from project.tests.utils import add_user, recreate_db
 
 
@@ -6,3 +7,16 @@ def test_passwords_are_random(test_app):
     user_one = add_user("testuser", "test@test.com", "greaterthaneight")
     user_two = add_user("testuser2", "test@test2.com", "greaterthaneight")
     assert user_one.password != user_two.password
+
+
+def test_encode_auth_token(test_app):
+    user = add_user("testuser", "test@test.com", "testpassword123")
+    auth_token = user.encode_auth_token(user.id)
+    assert isinstance(auth_token, bytes)
+
+
+def test_decode_auth_token(test_app):
+    user = add_user("testuser", "test@test.com", "testpassword123")
+    auth_token = user.encode_auth_token(user.id)
+    assert isinstance(auth_token, bytes)
+    assert User.decode_auth_token(auth_token) == user.id

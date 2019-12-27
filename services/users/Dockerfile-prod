@@ -42,6 +42,8 @@ ENV PYTHONUNBUFFERED 1
 ENV FLASK_ENV production
 ENV APP_SETTINGS project.config.ProductionConfig
 ENV PATH="/opt/venv/bin:$PATH"
+ARG SECRET_KEY=my_precious
+ENV SECRET_KEY $SECRET_KEY
 
 # run server
 CMD gunicorn --bind 0.0.0.0:$PORT manage:app
