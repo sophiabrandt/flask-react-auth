@@ -75,6 +75,6 @@ test-client:
   image: $IMAGE:client
   script:
     - cd /usr/src/app
-    - pnpm run formatfix:check
-    - pnpm run lint
-    - pnpm run test
+    - npm run formatfix:check
+    - npm run lint
+    - npm run test
