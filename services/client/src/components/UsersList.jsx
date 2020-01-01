@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const UsersList = props => {
+  // console.log(props.users)
   return (
     <div>
       {props.users.map(user => {
