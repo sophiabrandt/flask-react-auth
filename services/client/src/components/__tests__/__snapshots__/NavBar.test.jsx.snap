@@ -20,6 +20,13 @@ exports[`renders 1`] = `
         >
           Hello, World!
         </a>
+        <span
+          class="nav-toggle navbar-burger"
+        >
+          <span />
+          <span />
+          <span />
+        </span>
       </div>
       <div
         class="navbar-menu"

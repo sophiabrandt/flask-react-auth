@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const titleStyle = {
   fontWeight: 'bold',
@@ -16,6 +17,20 @@ const NavBar = props => (
         <Link to="/" className="navbar-item nav-title" style={titleStyle}>
           {props.title}
         </Link>
+        {/* new */}
+        <span
+          className="nav-toggle navbar-burger"
+          onClick={() => {
+            let toggle = document.querySelector('.nav-toggle')
+            let menu = document.querySelector('.navbar-menu')
+            toggle.classList.toggle('is-active')
+            menu.classList.toggle('is-active')
+          }}
+        >
+          <span />
+          <span />
+          <span />
+        </span>
       </div>
       <div className="navbar-menu">
         <div className="navbar-start">
@@ -41,5 +56,9 @@ const NavBar = props => (
     </section>
   </nav>
 )
+
+NavBar.propTypes = {
+  title: PropTypes.string.isRequired,
+}
 
 export default NavBar

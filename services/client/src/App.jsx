@@ -4,7 +4,9 @@ import axios from 'axios'
 
 import About from './components/About'
 import AddUser from './components/AddUser'
+import LoginForm from './components/LoginForm'
 import NavBar from './components/NavBar'
+import RegisterForm from './components/RegisterForm'
 import UsersList from './components/UsersList'
 
 class App extends Component {
@@ -84,6 +86,8 @@ class App extends Component {
                     )}
                   />
                   <Route exact path="/about" component={About} />
+                  <Route exact path="/register" component={RegisterForm} />
+                  <Route exact path="/login" component={LoginForm} />
                 </Switch>
               </div>
             </div>
