@@ -87,11 +87,15 @@ To get a local copy up and running follow these steps.
    ```sh
    npx degit https://github.com/sophiabrandt/flask-react-auth.git flask-react-auth
    ```
-2. Build docker containers
+2. Set environment variables
+   ```sh
+   export REACT_APP_USERS_SERVICE_URL=http://localhost:5001
+   ```
+3. Build docker containers
    ```sh
    docker-compose build
    ```
-3. Run docker containers
+4. Run docker containers
    ```sh
    docker-compose up -d
    ```
@@ -100,7 +104,7 @@ To get a local copy up and running follow these steps.
 
 ## Usage
 
-- Run tests:
+- Run pytest:
 
   ```sh
   docker-compose exec users pytest "project/tests" -p no:warnings
@@ -124,6 +128,20 @@ To get a local copy up and running follow these steps.
   docker-compose exec users black project
   docker-compose exec users /bin/sh -c "isort project/*/*.py"
   ```
+
+- Run React tests:
+  ```sh
+  docker-compose exec client npm run test
+  ```
+
+- Run eslint, prettier:
+  ```sh
+  docker-compose exec client npm run lint
+  docker-compose exec client npm run formatfix:check
+  docker-compose exec client npm run formatfix:write
+  ```
+
+
 
 <!-- ROADMAP -->
 
