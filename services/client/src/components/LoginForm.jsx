@@ -61,7 +61,9 @@ const LoginForm = props => {
                   onBlur={handleBlur}
                 />
                 {errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
+                  <div className="input-feedback" data-testid="errors-email">
+                    {errors.email}
+                  </div>
                 )}
               </div>
               <div className="field">
@@ -83,7 +85,9 @@ const LoginForm = props => {
                   onBlur={handleBlur}
                 />
                 {errors.password && touched.password && (
-                  <div className="input-feedback">{errors.password}</div>
+                  <div className="input-feedback" data-testid="errors-password">
+                    {errors.password}
+                  </div>
                 )}
               </div>
               <input

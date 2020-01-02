@@ -17,18 +17,13 @@ class App extends Component {
       title: 'Testdriven App',
       isAuthenticated: false,
     }
-    this.addUser = this.addUser.bind(this)
-    this.handleLoginFormSubmit = this.handleLoginFormSubmit.bind(this)
-    this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this)
-    this.isAuthenticated = this.isAuthenticated.bind(this)
-    this.logoutUser = this.logoutUser.bind(this)
   }
 
   componentDidMount() {
     this.getUsers()
   }
 
-  getUsers() {
+  getUsers = () => {
     axios
       .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
       .then(res => {
@@ -39,7 +34,7 @@ class App extends Component {
       })
   }
 
-  addUser(data) {
+  addUser = data => {
     axios
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
       .then(() => {
@@ -51,7 +46,7 @@ class App extends Component {
       })
   }
 
-  handleRegisterFormSubmit(data) {
+  handleRegisterFormSubmit = data => {
     const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`
     axios
       .post(url, data)
@@ -63,7 +58,7 @@ class App extends Component {
       })
   }
 
-  handleLoginFormSubmit(data) {
+  handleLoginFormSubmit = data => {
     const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/login`
     axios
       .post(url, data)
@@ -79,14 +74,14 @@ class App extends Component {
       })
   }
 
-  isAuthenticated() {
+  isAuthenticated = () => {
     if (this.state.isAuthenticated) {
       return true
     }
     return false
   }
 
-  logoutUser() {
+  logoutUser = () => {
     window.localStorage.removeItem('authToken')
     this.setState({ isAuthenticated: false })
   }
