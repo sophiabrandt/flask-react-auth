@@ -15,12 +15,13 @@ class App extends Component {
     this.state = {
       users: [],
       title: 'Testdriven App',
-      accessToken: null,
+      isAuthenticated: false,
     }
     this.addUser = this.addUser.bind(this)
     this.handleLoginFormSubmit = this.handleLoginFormSubmit.bind(this)
     this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.logoutUser = this.logoutUser.bind(this)
   }
 
   componentDidMount() {
@@ -67,7 +68,10 @@ class App extends Component {
     axios
       .post(url, data)
       .then(res => {
-        this.setState({ accessToken: res.data.auth_token })
+        this.setState(
+          { isAuthenticated: true },
+          window.localStorage.setItem('authToken', res.data.auth_token)
+        )
         this.getUsers()
       })
       .catch(err => {
@@ -76,16 +80,21 @@ class App extends Component {
   }
 
   isAuthenticated() {
-    if (this.state.accessToken) {
+    if (this.state.isAuthenticated) {
       return true
     }
     return false
   }
 
+  logoutUser() {
+    window.localStorage.removeItem('authToken')
+    this.setState({ isAuthenticated: false })
+  }
+
   render() {
     return (
       <div>
-        <NavBar title={this.state.title} />
+        <NavBar title={this.state.title} logoutUser={this.logoutUser} />
         <section className="section">
           <div className="container">
             <div className="columns">

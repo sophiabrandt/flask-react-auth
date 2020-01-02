@@ -5,16 +5,21 @@ import '@testing-library/jest-dom/extend-expect'
 
 import NavBar from '../NavBar'
 
-const title = 'Hello, World!'
-
 afterEach(cleanup)
 
+const props = {
+  title: 'Hello, World!',
+  logoutUser: () => {
+    return true
+  },
+}
+
 it('renders a title', () => {
-  const { getByText } = renderWithRouter(<NavBar title={title} />)
-  expect(getByText(title)).toHaveClass('nav-title')
+  const { getByText } = renderWithRouter(<NavBar {...props} />)
+  expect(getByText(props.title)).toHaveClass('nav-title')
 })
 
 it('renders', () => {
-  const { asFragment } = renderWithRouter(<NavBar title={title} />)
+  const { asFragment } = renderWithRouter(<NavBar {...props} />)
   expect(asFragment()).toMatchSnapshot()
 })
