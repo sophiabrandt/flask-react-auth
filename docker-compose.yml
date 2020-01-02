@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     entrypoint: ['/usr/src/app/entrypoint.sh']
     volumes:
-      - './services/users:/usr/src/app'
+      - './services/users:/usr/src/app:delegated'
     ports:
       - 5001:5000
     environment:

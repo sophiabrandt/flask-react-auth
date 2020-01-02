@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, cleanup } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
+import renderWithRouter from '../../setupTests'
 import '@testing-library/jest-dom/extend-expect'
 
 import RegisterForm from '../RegisterForm'
@@ -10,15 +11,20 @@ const props = {
   handleRegisterFormSubmit: () => {
     return true
   },
+  isAuthenticated: () => {
+    return false
+  },
 }
 
 it('renders properly', () => {
-  const { getByText } = render(<RegisterForm {...props} />)
+  const { getByText } = renderWithRouter(<RegisterForm {...props} />)
   expect(getByText('Register')).toHaveClass('title')
 })
 
 it('renders with default props', () => {
-  const { getByLabelText, getByText } = render(<RegisterForm {...props} />)
+  const { getByLabelText, getByText } = renderWithRouter(
+    <RegisterForm {...props} />
+  )
 
   const usernameInput = getByLabelText('Username')
   expect(usernameInput).toHaveAttribute('type', 'text')
@@ -37,6 +43,6 @@ it('renders with default props', () => {
 })
 
 it('renders', () => {
-  const { asFragment } = render(<RegisterForm {...props} />)
+  const { asFragment } = renderWithRouter(<RegisterForm {...props} />)
   expect(asFragment()).toMatchSnapshot()
 })

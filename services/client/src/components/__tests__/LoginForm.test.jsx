@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, cleanup } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
+import renderWithRouter from '../../setupTests'
 import '@testing-library/jest-dom/extend-expect'
 
 import LoginForm from '../LoginForm'
@@ -10,15 +11,20 @@ const props = {
   handleLoginFormSubmit: () => {
     return true
   },
+  isAuthenticated: () => {
+    return false
+  },
 }
 
 it('renders properly', () => {
-  const { getByText } = render(<LoginForm {...props} />)
+  const { getByText } = renderWithRouter(<LoginForm {...props} />)
   expect(getByText('Log In')).toHaveClass('title')
 })
 
 it('renders with default props', () => {
-  const { getByLabelText, getByText } = render(<LoginForm {...props} />)
+  const { getByLabelText, getByText } = renderWithRouter(
+    <LoginForm {...props} />
+  )
 
   const emailInput = getByLabelText('Email')
   expect(emailInput).toHaveAttribute('type', 'email')
@@ -33,6 +39,6 @@ it('renders with default props', () => {
 })
 
 it('renders', () => {
-  const { asFragment } = render(<LoginForm {...props} />)
+  const { asFragment } = renderWithRouter(<LoginForm {...props} />)
   expect(asFragment()).toMatchSnapshot()
 })
