@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import './form.css'
 
 const LoginForm = props => {
-  if (props.isAuthenticated()) {
+  if (props.isAuthenticated) {
     return <Redirect to="/" />
   }
   return (
@@ -106,7 +106,7 @@ const LoginForm = props => {
 
 LoginForm.propTypes = {
   handleLoginFormSubmit: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   errors: PropTypes.object,
   touched: PropTypes.string,
   values: PropTypes.object,

@@ -12,9 +12,7 @@ describe('renders', () => {
     handleRegisterFormSubmit: () => {
       return true
     },
-    isAuthenticated: () => {
-      return false
-    },
+    isAuthenticated: false,
   }
 
   it('properly', () => {
@@ -52,7 +50,7 @@ describe('renders', () => {
 describe('handles form validation correctly', () => {
   const mockProps = {
     handleRegisterFormSubmit: jest.fn(),
-    isAuthenticated: jest.fn(),
+    isAuthenticated: false,
   }
 
   it('when fields are empty', async () => {
@@ -87,6 +85,7 @@ describe('handles form validation correctly', () => {
       expect(mockProps.handleRegisterFormSubmit).toHaveBeenCalledTimes(0)
     })
   })
+
   it('when email field is not valid', async () => {
     const { getByLabelText, container, findByTestId } = renderWithRouter(
       <RegisterForm {...mockProps} />

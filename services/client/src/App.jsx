@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Route, Switch } from 'react-router-dom'
 
 import UsersList from './components/UsersList'
+import UserStatus from './components/UserStatus'
 import AddUser from './components/AddUser'
 import About from './components/About'
 import NavBar from './components/NavBar'
@@ -74,16 +75,11 @@ class App extends Component {
       })
   }
 
-  isAuthenticated = () => {
-    if (this.state.isAuthenticated) {
-      return true
-    }
-    return false
-  }
-
   logoutUser = () => {
-    window.localStorage.removeItem('authToken')
-    this.setState({ isAuthenticated: false })
+    this.setState(
+      { isAuthenticated: false },
+      window.localStorage.removeItem('authToken')
+    )
   }
 
   render() {
@@ -119,7 +115,7 @@ class App extends Component {
                     render={() => (
                       <RegisterForm
                         handleRegisterFormSubmit={this.handleRegisterFormSubmit}
-                        isAuthenticated={this.isAuthenticated}
+                        isAuthenticated={this.state.isAuthenticated}
                       />
                     )}
                   />
@@ -129,7 +125,16 @@ class App extends Component {
                     render={() => (
                       <LoginForm
                         handleLoginFormSubmit={this.handleLoginFormSubmit}
-                        isAuthenticated={this.isAuthenticated}
+                        isAuthenticated={this.state.isAuthenticated}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/status"
+                    render={() => (
+                      <UserStatus
+                        isAuthenticated={this.state.isAuthenticated}
                       />
                     )}
                   />

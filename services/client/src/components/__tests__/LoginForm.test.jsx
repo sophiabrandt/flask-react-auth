@@ -12,9 +12,7 @@ describe('renders', () => {
     handleLoginFormSubmit: () => {
       return true
     },
-    isAuthenticated: () => {
-      return false
-    },
+    isAuthenticated: false,
   }
 
   it('properly', () => {
@@ -48,7 +46,7 @@ describe('renders', () => {
 describe('handles form validation correctly', () => {
   const mockProps = {
     handleLoginFormSubmit: jest.fn(),
-    isAuthenticated: jest.fn(),
+    isAuthenticated: false,
   }
 
   it('when fields are empty', async () => {
