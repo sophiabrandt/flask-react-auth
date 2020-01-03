@@ -10,37 +10,51 @@ afterEach(cleanup)
 
 jest.mock('axios')
 
-axios.mockImplementation(() =>
-  Promise.resolve({
-    data: { data: { email: 'test@test.com', username: 'test' } },
-  })
-)
+describe('when authenticated', () => {
+  axios.mockImplementation(() =>
+    Promise.resolve({
+      data: { data: { email: 'test@test.com', username: 'test' } },
+    })
+  )
 
-const props = {
-  isAuthenticated: true,
-}
+  const props = {
+    isAuthenticated: true,
+  }
 
-it('renders properly when authenticated', async () => {
-  const { findByTestId } = renderWithRouter(<UserStatus {...props} />)
-  await wait(() => {
-    expect(axios).toHaveBeenCalledTimes(1)
+  it('renders properly', async () => {
+    const { findByTestId } = renderWithRouter(<UserStatus {...props} />)
+    await wait(() => {
+      expect(axios).toHaveBeenCalledTimes(1)
+    })
+    expect((await findByTestId('user-email')).innerHTML).toBe('test@test.com')
+    expect((await findByTestId('user-username')).innerHTML).toBe('test')
   })
-  expect((await findByTestId('user-email')).innerHTML).toBe('test@test.com')
-  expect((await findByTestId('user-username')).innerHTML).toBe('test')
+
+  it('renders', async () => {
+    const { asFragment } = renderWithRouter(<UserStatus {...props} />)
+    await wait(() => {
+      expect(axios).toHaveBeenCalled()
+    })
+    expect(asFragment()).toMatchSnapshot()
+  })
 })
 
-it('renders', async () => {
-  const { asFragment } = renderWithRouter(<UserStatus {...props} />)
-  await wait(() => {
-    expect(axios).toHaveBeenCalled()
-  })
-  expect(asFragment()).toMatchSnapshot()
-})
+describe('when unauthenticated', () => {
+  axios.get.mockImplementation(() =>
+    Promise.resolve({
+      data: { status: 'fail' },
+    })
+  )
 
-it('redirects when authToken invalid', async () => {
-  const { history } = renderWithRouter(<UserStatus isAuthenticated={false} />)
-  await wait(() => {
-    expect(axios).toHaveBeenCalled()
+  const props = {
+    isAuthenticated: false,
+  }
+
+  it('redirects when authToken invalid', async () => {
+    const { history } = renderWithRouter(<UserStatus {...props} />)
+    await wait(() => {
+      expect(axios).toHaveBeenCalled()
+    })
+    expect(history.location.pathname).toEqual('/login')
   })
-  expect(history.location.pathname).toEqual('/login')
 })
