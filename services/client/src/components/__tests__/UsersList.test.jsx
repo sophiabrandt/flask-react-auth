@@ -21,13 +21,19 @@ const users = [
   },
 ]
 
+const props = {
+  users: users,
+  removeUser: () => true,
+  isAuthenticated: true,
+}
+
 it('renders a username', () => {
-  const { getByText } = render(<UsersList users={users} />)
+  const { getByText } = render(<UsersList {...props} />)
   expect(getByText('michael')).toHaveClass('username')
   expect(getByText('michaelherman')).toHaveClass('username')
 })
 
 it('renders', () => {
-  const { asFragment } = render(<UsersList users={users} />)
+  const { asFragment } = render(<UsersList {...props} />)
   expect(asFragment()).toMatchSnapshot()
 })

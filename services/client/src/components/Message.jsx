@@ -23,7 +23,7 @@ const Message = props => {
 Message.propTypes = {
   messageType: PropTypes.string.isRequired,
   messageText: PropTypes.string.isRequired,
-  removeMessage: PropTypes.func.isRequired,
+  removeMessage: PropTypes.func,
 }
 
 export default Message
