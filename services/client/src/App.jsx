@@ -97,6 +97,16 @@ class App extends Component {
       messageType: type,
       messageText: text,
     })
+    setTimeout(() => {
+      this.removeMessage()
+    }, 3000)
+  }
+
+  removeMessage = () => {
+    this.setState({
+      messageType: null,
+      messageText: null,
+    })
   }
 
   render() {
@@ -113,6 +123,7 @@ class App extends Component {
               <Message
                 messageType={this.state.messageType}
                 messageText={this.state.messageText}
+                removeMessage={this.removeMessage}
               />
             )}
             <div className="columns">

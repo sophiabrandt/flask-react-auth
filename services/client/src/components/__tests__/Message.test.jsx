@@ -17,6 +17,11 @@ describe('when "messageType" is "success"', () => {
     expect(getByTestId('message').innerHTML).toContain('is-success')
     expect(getByText('Hello, World!')).toHaveClass('message-text')
   })
+
+  it('renders', () => {
+    const { asFragment } = render(<Message {...props} />)
+    expect(asFragment()).toMatchSnapshot()
+  })
 })
 
 describe('when "messageType" is "danger"', () => {
@@ -29,5 +34,10 @@ describe('when "messageType" is "danger"', () => {
     const { getByText, getByTestId } = render(<Message {...props} />)
     expect(getByTestId('message').innerHTML).toContain('is-danger')
     expect(getByText('Hello, World!')).toHaveClass('message-text')
+  })
+
+  it('renders', () => {
+    const { asFragment } = render(<Message {...props} />)
+    expect(asFragment()).toMatchSnapshot()
   })
 })
