@@ -1,0 +1,7 @@
+env
+Dockerfile-deploy
+services/users/Dockerfile
+services/users/Dockerfile-prod
+services/users/.coverage
+.dockerignore
+services/users/.dockerignore

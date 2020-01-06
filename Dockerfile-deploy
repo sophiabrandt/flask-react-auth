@@ -1,0 +1,92 @@
+#####################
+# REACT BUILD IMAGE
+#####################
+FROM node:13.5.0-alpine AS build-react
+
+# install global packages
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+RUN npm install npm@latest -g
+RUN npm install react-scripts@3.3.0 -g
+
+# set working directory
+WORKDIR /usr/src/app
+
+# install dependencies & set env variables
+COPY ./services/client/package*.json /usr/src/app/
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ENV PATH=$PATH:/home/node/.npm-global/bin
+ENV NODE_ENV production
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+RUN npm ci
+
+# copy app
+COPY ./services/client .
+
+# build React app
+RUN npm run build
+
+###########################
+# PYTHON/NGINX BUILD IMAGE
+###########################
+FROM nginx:1.17.6 AS build-python
+
+# install python
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc python3 python3-venv
+
+# virtualenv
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# add and install requirements
+RUN pip install --upgrade pip
+COPY ./services/users/requirements.txt .
+RUN pip install -r requirements.txt
+
+#####################
+# PRODUCTION IMAGE
+#####################
+FROM nginx:1.17.6 AS production
+
+# install python3 & netcat
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3 netcat-openbsd
+
+# copy Python dependencies from build image
+COPY --from=build-python /opt/venv /opt/venv
+# copy React app from react build image
+COPY --from=build-react /usr/src/app/build /usr/share/nginx/html
+# copy nginx
+COPY ./services/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./services/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# set working directory
+WORKDIR /app
+
+# add permissions for nginx user
+RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
+        chown -R nginx:nginx /var/cache/nginx && \
+        chown -R nginx:nginx /etc/nginx/conf.d
+RUN mkdir -p /tmp/nginx/log && \
+        touch /tmp/nginx/nginx.pid && \
+        touch /tmp/nginx/log/error.log && \
+        chown -R nginx:nginx /tmp/nginx
+USER nginx
+
+# add Python app
+COPY ./services/users .
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_ENV production
+ENV APP_SETTINGS project.config.ProductionConfig
+ENV PATH="/opt/venv/bin:$PATH"
+ARG SECRET_KEY=my_precious
+ENV SECRET_KEY $SECRET_KEY
+
+# run server
+CMD gunicorn -b 0.0.0.0:5000 manage:app --daemon && \
+      sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && \
+      nginx -g 'daemon off;'

@@ -5,6 +5,7 @@ stages:
   - test-users
   - build-client
   - test-client
+  - build-heroku
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
@@ -78,3 +79,44 @@ test-client:
     - npm run formatfix:check
     - npm run lint
     - npm run test
+
+build-heroku:
+  stage: build-heroku
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    HEROKU_APP_NAME: thawing-crag-10777
+    HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
+  script:
+    - apk add --no-cache curl
+    - chmod +x ./release.sh
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - docker pull $IMAGE:build-react || true
+    - docker pull $IMAGE:build-python || true
+    - docker pull $IMAGE:production || true
+    - docker build
+        --target build-react
+        --cache-from $IMAGE:build-react
+        --tag $IMAGE:build-react
+        --file ./Dockerfile-deploy
+        "."
+    - docker build
+        --target build-python
+        --cache-from $IMAGE:build-python
+        --tag $IMAGE:build-python
+        --file ./Dockerfile-deploy
+        "."
+    - docker build
+        --target production
+        --cache-from $IMAGE:production
+        --tag $IMAGE:production
+        --tag $HEROKU_REGISTRY_IMAGE
+        --file ./Dockerfile-deploy
+        "."
+    - docker push $IMAGE:build-react
+    - docker push $IMAGE:build-python
+    - docker push $IMAGE:production
+    - echo -n $HEROKU_AUTH_TOKEN | docker login -u _ --password-stdin registry.heroku.com
+    - docker push $HEROKU_REGISTRY_IMAGE
+    - ./release.sh
