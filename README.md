@@ -56,6 +56,8 @@
 
 The repo represents my learning progress with the [testdriven.io course][testdriven] with Flask and Docker.
 
+**[Live demo available on Heroku](https://thawing-crag-10777.herokuapp.com/)**.
+
 ### Built With
 
 - Flask
@@ -99,6 +101,7 @@ To get a local copy up and running follow these steps.
    ```sh
    docker-compose up -d
    ```
+5. Navigate to `http://localhost:3007` to see the React app.
 
 <!-- USAGE EXAMPLES -->
 
@@ -123,6 +126,7 @@ To get a local copy up and running follow these steps.
   ```
 
 - Run flake8, black, isort:
+
   ```sh
   docker-compose exec users flake8 project
   docker-compose exec users black project
@@ -130,6 +134,7 @@ To get a local copy up and running follow these steps.
   ```
 
 - Run React tests:
+
   ```sh
   docker-compose exec client npm run test
   ```
@@ -140,8 +145,6 @@ To get a local copy up and running follow these steps.
   docker-compose exec client npm run formatfix:check
   docker-compose exec client npm run formatfix:write
   ```
-
-
 
 <!-- ROADMAP -->
 
