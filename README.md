@@ -26,7 +26,7 @@
     <a href="https://github.com/sophiabrandt/flask-react-auth"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/sophiabrandt/flask-react-auth">View Demo</a>
+    <a href="https://thawing-crag-10777.herokuapp.com/">View Demo</a>
     ·
     <a href="https://github.com/sophiabrandt/flask-react-auth/issues">Report Bug</a>
     ·
